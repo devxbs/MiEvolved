@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         // karena mau passing "nama" sama "email", ga bisa langsung
 //        startActivity(new Intent(this, main_activity2.class));
         Intent intent = new Intent(this, main_activity2.class);
-        intent.putExtra("nama", nama);
+        intent.putExtra("name", nama);
         intent.putExtra("url", url);
         startActivity(intent);
     }
