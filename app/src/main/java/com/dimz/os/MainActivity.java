@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         // ambil data dari intent yang dikirim oleh LoginActivity line 56 - 63
         Intent intent = getIntent();
-        nama = intent.getStringExtra("nama");
+        nama = intent.getStringExtra("name");
         email = intent.getStringExtra("email");
         mobile = intent.getStringExtra("mobile");
         url = intent.getStringExtra("url");

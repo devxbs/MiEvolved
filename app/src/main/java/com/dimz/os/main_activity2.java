@@ -44,7 +44,7 @@ public class main_activity2 extends AppCompatActivity
 
         // Ambil data yang dipassing dari MainActivity
         Intent intent = getIntent();
-        nama = intent.getStringExtra("nama");
+        nama = intent.getStringExtra("name");
         url = intent.getStringExtra("url");
 
         mToolbar = (Toolbar) findViewById(R.id.nav_action);
