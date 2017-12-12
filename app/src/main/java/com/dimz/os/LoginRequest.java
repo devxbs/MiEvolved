@@ -16,6 +16,8 @@ public class LoginRequest extends StringRequest {
     private static final String LOGIN_URL = "http://dimzos.000webhostapp.com/login.php";
     private Map<String, String> parameters;
 
+
+
     public LoginRequest(String username, String password, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         super(Method.POST, LOGIN_URL, listener, errorListener);
         parameters = new HashMap<>();
@@ -27,4 +29,6 @@ public class LoginRequest extends StringRequest {
     protected Map<String, String> getParams() throws AuthFailureError {
         return parameters;
     }
+
+
 }
