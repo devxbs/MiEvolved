@@ -12,17 +12,18 @@ import com.dimz.os.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Nav2 extends Fragment {
+public class Nav3 extends Fragment {
 
-    public Nav2() {
+
+    public Nav3() {
         // Required empty public constructor
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater,ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_nav2,container,false);
 
+    @Override
+    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_nav3,container,false);
     }
+
 }

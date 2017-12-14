@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/nav_dashboard"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="Dashboard" />
+    <item android:id="@+id/nav_events"
+        android:icon="@drawable/ic_event_black_24dp"
+        android:title="Events" />
+    <item android:icon="@drawable/ic_person_black_24dp"
+        android:id="@+id/nav_account"
+        android:title="Account" />
     <item android:id="@+id/nav_setting"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="Settings" />
-    <item android:id="@+id/nav_account"
-        android:icon="@drawable/ic_person_black_24dp"
-        android:title="Account" />
-    <item android:icon="@drawable/exit"
+    <item android:id="@+id/nav_share"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:title="Share" />
+    <item android:icon="@drawable/ic_arrow_back_black_24dp"
         android:id="@+id/nav_logout"
         android:title="Exit" />
 

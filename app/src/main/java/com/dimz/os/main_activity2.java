@@ -24,6 +24,9 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 import com.dimz.os.drawer.Nav1;
 import com.dimz.os.drawer.Nav2;
+import com.dimz.os.drawer.Nav3;
+import com.dimz.os.drawer.Nav4;
+import com.dimz.os.drawer.Nav5;
 
 public class main_activity2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -109,19 +112,37 @@ public class main_activity2 extends AppCompatActivity
 
         int id = item.getItemId();
 
-        if (id == R.id.nav_setting) {
+        if (id == R.id.nav_dashboard) {
             Nav1 fragment = new Nav1();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.framelayout, fragment);
             fragmentTransaction.commit();
 
-        } else if (id == R.id.nav_account) {
+        } else if (id == R.id.nav_events) {
             Nav2 fragment = new Nav2();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.framelayout, fragment);
             fragmentTransaction.commit();
 
-        } else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_account) {
+            Nav3 fragment = new Nav3();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.framelayout, fragment);
+            fragmentTransaction.commit();
+
+        }  else if (id == R.id.nav_setting) {
+            Nav4 fragment = new Nav4();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.framelayout, fragment);
+            fragmentTransaction.commit();
+
+        }  else if (id == R.id.nav_share) {
+            Nav5 fragment = new Nav5();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.framelayout, fragment);
+            fragmentTransaction.commit();
+
+        }  else if (id == R.id.nav_logout) {
             finish();
         }
 

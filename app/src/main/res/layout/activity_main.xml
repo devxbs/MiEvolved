@@ -216,20 +216,17 @@
                     android:background="#fff"
                     android:orientation="vertical">
                     <LinearLayout
-                        android:paddingTop="30dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        android:layout_marginTop="30dp"
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <ImageView
                             android:layout_gravity="center"
-                            android:layout_width="43dp"
-                            android:layout_height="43dp"
-                            android:src="@drawable/ic_donut_small_black_24dp"/>
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/browser"/>
 
                         <TextView
-                            android:paddingTop="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Browser"
@@ -245,7 +242,7 @@
                     android:background="#fff"
                     android:orientation="vertical">
                     <LinearLayout
-                        android:paddingTop="30dp"
+                        android:layout_marginTop="30dp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="vertical"
@@ -258,7 +255,6 @@
                             android:src="@drawable/ic_home_black_24dp"/>
 
                         <TextView
-                            android:paddingTop="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2"
@@ -274,7 +270,7 @@
                     android:background="#fff"
                     android:orientation="vertical">
                     <LinearLayout
-                        android:paddingTop="30dp"
+                        android:layout_marginTop="30dp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="vertical"
@@ -287,7 +283,6 @@
                             android:src="@drawable/ic_home_black_24dp"/>
 
                         <TextView
-                            android:paddingTop="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="3"
@@ -313,26 +308,29 @@
                     android:background="#fff"
                     android:orientation="vertical">
                    <LinearLayout
-                       android:paddingTop="30dp"
+                       android:layout_marginTop="30dp"
                        android:layout_gravity="center"
                        android:gravity="center"
                        android:orientation="vertical"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/ic_home_black_24dp"/>
 
-                    <TextView
-                        android:paddingTop="10dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Home"
-                        android:textColor="@color/text"
-                        android:textSize="15dp" />
+                       <ImageView
+                           android:layout_width="50dp"
+                           android:layout_height="50dp"
+                           android:layout_gravity="center"
+                           android:paddingBottom="2dp"
+                           android:src="@drawable/dashboard" />
+
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="Dashboard"
+                           android:textColor="@color/text"
+                           android:textSize="15dp" />
+
                    </LinearLayout>
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginTop="20dp"
@@ -342,7 +340,7 @@
                     android:background="#fff"
                     android:orientation="vertical">
                     <LinearLayout
-                        android:paddingTop="30dp"
+                        android:layout_marginTop="30dp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="vertical"
@@ -355,7 +353,6 @@
                             android:src="@drawable/ic_home_black_24dp"/>
 
                         <TextView
-                            android:paddingTop="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2"
@@ -371,7 +368,7 @@
                     android:background="#fff"
                     android:orientation="vertical">
                     <LinearLayout
-                        android:paddingTop="30dp"
+                        android:layout_marginTop="30dp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="vertical"
@@ -384,7 +381,6 @@
                             android:src="@drawable/ic_home_black_24dp"/>
 
                         <TextView
-                            android:paddingTop="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="3"
