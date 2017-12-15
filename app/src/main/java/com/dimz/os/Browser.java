@@ -14,6 +14,7 @@ import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -34,6 +35,7 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
     public ValueCallback<Uri[]> uploadMessage;
     public static final int REQUEST_SELECT_FILE = 100;
     private final static int FILECHOOSER_RESULTCODE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +61,12 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
         webv.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         webv.getSettings().setAllowFileAccessFromFileURLs(true);
         webv.getSettings().setAllowUniversalAccessFromFileURLs(true);
+
+
+        webv.getSettings().setSupportZoom(false);
         webv.getSettings().setAllowFileAccess(true);
-        webv.getSettings().setSupportZoom(true);
         webv.getSettings().setAllowContentAccess(true);
+
 
         pg = (ProgressBar) findViewById(R.id.progressBar4);
         webv.setWebChromeClient(new WebChromeClient(){
@@ -101,10 +106,9 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
             }
         });
 
-
         webv.setWebChromeClient(new WebChromeClient() {
             // For 3.0+ Devices (Start)
-            // onActivityResult attached before constructor
+
             protected void openFileChooser(ValueCallback uploadMsg, String acceptType)
             {
                 mUploadMessage = uploadMsg;
@@ -166,7 +170,7 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
 
                 request.allowScanningByMediaScanner();
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Name of your downloadable file goes here");
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,"Downloaded File");
                 DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                 dm.enqueue(request);
                 Toast.makeText(getApplicationContext(), "Downloading Files",
@@ -194,27 +198,6 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
         }
     }
 
-    /**
-     * Take care of popping the fragment back stack or finishing the activity
-     * as appropriate.
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN){
-            switch (keyCode){
-                case KeyEvent.KEYCODE_BACK :
-                    if (webv.canGoBack()){
-                        webv.goBack();
-                    }else {
-                        finish();
-                    }
-                    return true;
-            }
-        }
-
-        return super.onKeyDown(keyCode, event);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
@@ -232,13 +215,31 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
         {
             if (null == mUploadMessage)
                 return;
-            // Use MainActivity.RESULT_OK if you're implementing WebView inside Fragment
-            // Use RESULT_OK only if you're implementing WebView inside an Activity
-            Uri result = intent == null || resultCode != MainActivity.RESULT_OK ? null : intent.getData();
+
+            Uri result = intent == null || resultCode != Browser.RESULT_OK ? null : intent.getData();
             mUploadMessage.onReceiveValue(result);
             mUploadMessage = null;
         }
         else
-            Toast.makeText(this.getApplicationContext(), "Failed to Upload Image", Toast.LENGTH_LONG).show();
+            Toast.makeText(Browser.this.getApplicationContext(), "Failed to Upload Image", Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN){
+            switch (keyCode){
+                case KeyEvent.KEYCODE_BACK :
+                    if (webv.canGoBack()){
+                        webv.goBack();
+                    }else {
+                        finish();
+                    }
+                    return true;
+            }
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+
 }
