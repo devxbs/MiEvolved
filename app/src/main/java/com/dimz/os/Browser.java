@@ -140,7 +140,7 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
                 webv.getSettings().setDisplayZoomControls(true);
                 pg = (ProgressBar) findViewById(R.id.progressBar4);
 
-                // Kodingan ini ga perlu karena udah ada di line 113, ini yang nyebabin dia ga mau keluar file-choosenya
+                // Kodingan ini ga perlu karena udah ada di line 54, ini yang nyebabin dia ga mau keluar file-choosenya
 //                webv.setWebChromeClient(new WebChromeClient() {
 //                    @Override
 //                    public void onProgressChanged(WebView view, int newProgress) {
