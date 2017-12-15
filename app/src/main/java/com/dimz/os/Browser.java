@@ -35,6 +35,7 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
     public static final int REQUEST_SELECT_FILE = 100;
     private final static int FILECHOOSER_RESULTCODE = 1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +51,68 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
         String url = "https://google.co.id/";
 
 
+        webv.setWebChromeClient(new WebChromeClient() {
+            // For 3.0+ Devices (Start)
+            // onActivityResult attached before constructor
+            protected void openFileChooser(ValueCallback uploadMsg, String acceptType) {
+                mUploadMessage = uploadMsg;
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("image/*");
+                startActivityForResult(Intent.createChooser(i, "File Browser"), FILECHOOSER_RESULTCODE);
+            }
 
+
+            // For Lollipop 5.0+ Devices
+            @Override
+            public boolean onShowFileChooser(WebView mWebView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
+                if (uploadMessage != null) {
+                    uploadMessage.onReceiveValue(null);
+                    uploadMessage = null;
+                }
+
+                uploadMessage = filePathCallback;
+
+                Intent intent = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    intent = fileChooserParams.createIntent();
+                }
+                try {
+                    startActivityForResult(intent, REQUEST_SELECT_FILE);
+                } catch (ActivityNotFoundException e) {
+                    uploadMessage = null;
+                    Toast.makeText(Browser.this, "Cannot Open File Chooser", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+                return true;
+            }
+
+            //For Android 4.1 only
+            protected void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
+                mUploadMessage = uploadMsg;
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("image/*");
+                startActivityForResult(Intent.createChooser(intent, "File Browser"), FILECHOOSER_RESULTCODE);
+            }
+
+            protected void openFileChooser(ValueCallback<Uri> uploadMsg) {
+                mUploadMessage = uploadMsg;
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("image/*");
+                startActivityForResult(Intent.createChooser(i, "File Chooser"), FILECHOOSER_RESULTCODE);
+            }
+
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                pg.setVisibility(view.VISIBLE);
+                pg.setProgress(newProgress);
+                if (newProgress == 100) {
+                    pg.setVisibility(view.GONE);
+                }
+            }
+        });
         webv.getSettings().setJavaScriptEnabled(true);
         webv.getSettings().setDisplayZoomControls(true);
         webv.getSettings().setLoadWithOverviewMode(true);
@@ -64,16 +126,7 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
         webv.getSettings().setAllowContentAccess(true);
 
         pg = (ProgressBar) findViewById(R.id.progressBar4);
-        webv.setWebChromeClient(new WebChromeClient(){
-            @Override
-            public void onProgressChanged(WebView view, int newProgress){
-                pg.setVisibility(view.VISIBLE);
-                pg.setProgress(newProgress);
-                if (newProgress == 100){
-                    pg.setVisibility(view.GONE);
-                }
-            }
-        });
+
 
         webv.loadUrl(url);
         webv.setWebViewClient(new MyWebLaunch());
@@ -86,83 +139,30 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
                 webv.getSettings().setJavaScriptEnabled(true);
                 webv.getSettings().setDisplayZoomControls(true);
                 pg = (ProgressBar) findViewById(R.id.progressBar4);
-                webv.setWebChromeClient(new WebChromeClient(){
-                    @Override
-                    public void onProgressChanged(WebView view, int newProgress) {
-                        pg.setVisibility(View.VISIBLE);
-                        pg.setProgress(newProgress);
-                        if (newProgress == 100){
-                            pg.setVisibility(View.GONE);
-                        }
-                    }
-                });
+
+                // Kodingan ini ga perlu karena udah ada di line 113, ini yang nyebabin dia ga mau keluar file-choosenya
+//                webv.setWebChromeClient(new WebChromeClient() {
+//                    @Override
+//                    public void onProgressChanged(WebView view, int newProgress) {
+//                        pg.setVisibility(View.VISIBLE);
+//                        pg.setProgress(newProgress);
+//                        if (newProgress == 100) {
+//                            pg.setVisibility(View.GONE);
+//                        }
+//                    }
+//                });
+
                 webv.loadUrl(url);
                 webv.setWebViewClient(new MyWebLaunch());
             }
         });
 
 
-        webv.setWebChromeClient(new WebChromeClient() {
-            // For 3.0+ Devices (Start)
-            // onActivityResult attached before constructor
-            protected void openFileChooser(ValueCallback uploadMsg, String acceptType)
-            {
-                mUploadMessage = uploadMsg;
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.addCategory(Intent.CATEGORY_OPENABLE);
-                i.setType("image/*");
-                startActivityForResult(Intent.createChooser(i, "File Browser"), FILECHOOSER_RESULTCODE);
-            }
-
-
-            // For Lollipop 5.0+ Devices
-            public boolean onShowFileChooser(WebView mWebView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams)
-            {
-                if (uploadMessage != null) {
-                    uploadMessage.onReceiveValue(null);
-                    uploadMessage = null;
-                }
-
-                uploadMessage = filePathCallback;
-
-                Intent intent = fileChooserParams.createIntent();
-                try
-                {
-                    startActivityForResult(intent, REQUEST_SELECT_FILE);
-                } catch (ActivityNotFoundException e)
-                {
-                    uploadMessage = null;
-                    Toast.makeText(Browser.this.getApplicationContext(), "Cannot Open File Chooser", Toast.LENGTH_LONG).show();
-                    return false;
-                }
-                return true;
-            }
-
-            //For Android 4.1 only
-            protected void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture)
-            {
-                mUploadMessage = uploadMsg;
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("image/*");
-                startActivityForResult(Intent.createChooser(intent, "File Browser"), FILECHOOSER_RESULTCODE);
-            }
-
-            protected void openFileChooser(ValueCallback<Uri> uploadMsg)
-            {
-                mUploadMessage = uploadMsg;
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.addCategory(Intent.CATEGORY_OPENABLE);
-                i.setType("image/*");
-                startActivityForResult(Intent.createChooser(i, "File Chooser"), FILECHOOSER_RESULTCODE);
-            }
-        });
-
         webv.setDownloadListener(new DownloadListener() {
             @Override
-            public void onDownloadStart(String url,String userAgent,String contentDisposition,String mimetype,long contentLength) {
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
                 DownloadManager.Request request = new DownloadManager.Request(
-                    Uri.parse(url));
+                        Uri.parse(url));
 
                 request.allowScanningByMediaScanner();
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
@@ -188,7 +188,7 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
 
     private class MyWebLaunch extends WebViewClient {
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url){
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
             return super.shouldOverrideUrlLoading(view, url);
         }
@@ -200,12 +200,12 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN){
-            switch (keyCode){
-                case KeyEvent.KEYCODE_BACK :
-                    if (webv.canGoBack()){
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_BACK:
+                    if (webv.canGoBack()) {
                         webv.goBack();
-                    }else {
+                    } else {
                         finish();
                     }
                     return true;
@@ -216,20 +216,15 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent)
-    {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            if (requestCode == REQUEST_SELECT_FILE)
-            {
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (requestCode == REQUEST_SELECT_FILE) {
                 if (uploadMessage == null)
                     return;
                 uploadMessage.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, intent));
                 uploadMessage = null;
             }
-        }
-        else if (requestCode == FILECHOOSER_RESULTCODE)
-        {
+        } else if (requestCode == FILECHOOSER_RESULTCODE) {
             if (null == mUploadMessage)
                 return;
             // Use MainActivity.RESULT_OK if you're implementing WebView inside Fragment
@@ -237,8 +232,7 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
             Uri result = intent == null || resultCode != MainActivity.RESULT_OK ? null : intent.getData();
             mUploadMessage.onReceiveValue(result);
             mUploadMessage = null;
-        }
-        else
+        } else
             Toast.makeText(this.getApplicationContext(), "Failed to Upload Image", Toast.LENGTH_LONG).show();
     }
 }
