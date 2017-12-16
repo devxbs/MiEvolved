@@ -1,14 +1,11 @@
 package com.dimz.os;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -23,10 +20,11 @@ public class MainActivity extends AppCompatActivity {
     RequestQueue requestQueue;//To Download the use profile picture
 
     // Simpan dulu ke variabel biar ga ribet.
-    String nama;
+    String name;
     String email;
     String mobile;
     String url;
+    String age;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +32,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("Profile");
 
-        // ambil data dari intent yang dikirim oleh LoginActivity line 56 - 63
-        Intent intent = getIntent();
-        nama = intent.getStringExtra("name");
-        email = intent.getStringExtra("email");
-        mobile = intent.getStringExtra("mobile");
-        url = intent.getStringExtra("url");
+        // ambil data dari sharedpreference yang disimpen
+        name = SharedPrefs.readSharedSetting(this, SharedPrefs.PREF_NAME, "");
+        mobile = SharedPrefs.readSharedSetting(this, SharedPrefs.PREF_MOBILE, "");
+        email = SharedPrefs.readSharedSetting(this, SharedPrefs.PREF_EMAIL, "");
+        url = SharedPrefs.readSharedSetting(this, SharedPrefs.PREF_URL, "");
+        age = SharedPrefs.readSharedSetting(this, SharedPrefs.PREF_AGE,"");
+        // ambil data dari intent yang dikirim oleh LoginActivity line 56 - 63 (ralat)
+//        Intent intent = getIntent();
+//        name = intent.getStringExtra("name");
+//        email = intent.getStringExtra("email");
+//        mobile = intent.getStringExtra("mobile");
+//        url = intent.getStringExtra("url");
 
 
         //Initializing Widgets
@@ -65,11 +69,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Displaying the values passed from the LoginActivity
-        tv_name.setText(getIntent().getStringExtra("name"));
-        tv_email.setText(getIntent().getStringExtra("email"));
-        tv_mobile.setText(getIntent().getStringExtra("mobile"));
-        tv_age.setText(getIntent().getStringExtra("age"));
-        networkImageView.setImageUrl(getIntent().getStringExtra("url"), imageLoader);
+        tv_name.setText(name);
+        tv_email.setText(email);
+        tv_age.setText(age);
+        tv_mobile.setText(mobile);
+        networkImageView.setImageUrl(url,imageLoader);
+//        tv_name.setText(getIntent().getStringExtra("name"));
+//        tv_email.setText(getIntent().getStringExtra("email"));
+//        tv_mobile.setText(getIntent().getStringExtra("mobile"));
+//        tv_age.setText(getIntent().getStringExtra("age"));
+//        networkImageView.setImageUrl(getIntent().getStringExtra("url"), imageLoader);
+
         CekSession();
     }
 
@@ -107,10 +117,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void buttondimz2(View v) {
-        // karena mau passing "nama" sama "email", ga bisa langsung
+        // karena mau passing "name" sama "email", ga bisa langsung
 //        startActivity(new Intent(this, main_activity2.class));
         Intent intent = new Intent(this, main_activity2.class);
-        intent.putExtra("name", nama);
+        intent.putExtra("name", name);
         intent.putExtra("url", url);
         startActivity(intent);
     }

@@ -1,6 +1,8 @@
 package com.dimz.os;
+
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.NetworkError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -17,18 +20,23 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 public class LoginActivity extends AppCompatActivity {
     TextInputLayout til_username, til_password;
     Button bt_login;
     Button tv_register;
     String username, password;
     RequestQueue requestQueue;
+    Context c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        c = this;
         setTitle("Login");//set title of the activity
         initialize(); //Initialize all the widgets present in the layout
         requestQueue = Volley.newRequestQueue(LoginActivity.this);//Creating the RequestQueue
@@ -57,26 +65,34 @@ public class LoginActivity extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject(response);
                                 if (jsonObject.getBoolean("success")) {
                                     Intent loginSuccess = new Intent(LoginActivity.this, MainActivity.class);
+                                    // kita bakal nyimpen hasil ini ke sharedPref, biar bisa diakses di activity mana pun
                                     //Passing all received data from server to next activity
-                                    loginSuccess.putExtra("name", jsonObject.getString("name"));
-                                    loginSuccess.putExtra("mobile", jsonObject.getString("mobile"));
-                                    loginSuccess.putExtra("email", jsonObject.getString("email"));
-                                    loginSuccess.putExtra("age", jsonObject.getString("age"));
-                                    loginSuccess.putExtra("url", jsonObject.getString("url"));
+//                                    loginSuccess.putExtra("name", jsonObject.getString("name"));
+//                                    loginSuccess.putExtra("mobile", jsonObject.getString("mobile"));
+//                                    loginSuccess.putExtra("email", jsonObject.getString("email"));
+//                                    loginSuccess.putExtra("age", jsonObject.getString("age"));
+//                                    loginSuccess.putExtra("url", jsonObject.getString("url"));
+
+                                    // simpan data kembalian login ke sharedPref
+                                    SharedPrefs.saveSharedSetting(c, SharedPrefs.PREF_NAME, jsonObject.getString("name"));
+                                    SharedPrefs.saveSharedSetting(c, SharedPrefs.PREF_EMAIL, jsonObject.getString("email"));
+                                    SharedPrefs.saveSharedSetting(c, SharedPrefs.PREF_AGE, jsonObject.getString("age"));
+                                    SharedPrefs.saveSharedSetting(c, SharedPrefs.PREF_MOBILE, jsonObject.getString("mobile"));
+                                    SharedPrefs.saveSharedSetting(c, SharedPrefs.PREF_URL, jsonObject.getString("url"));
 
                                     // ubah nilai sharedPref jadi true ketika login sukses
-                                    SharedPrefs.saveSharedSetting(LoginActivity.this,SharedPrefs.KEY_LOGIN_NAME,true);
+                                    SharedPrefs.saveSharedSetting(LoginActivity.this, SharedPrefs.KEY_LOGIN_NAME, true);
 
                                     startActivity(loginSuccess);
                                     finish();
                                 } else {
-                                    if(jsonObject.getString("status").equals("INVALID"))
+                                    if (jsonObject.getString("status").equals("INVALID"))
                                         Toast.makeText(LoginActivity.this, "User Not Found", Toast.LENGTH_SHORT).show();
-                                    else{
+                                    else {
                                         Toast.makeText(LoginActivity.this, "Passwords Don't Match", Toast.LENGTH_SHORT).show();
                                     }
                                     // ubah nilai sharedPref jadi false ketika login gagal buat pengecekan di SplashActivity
-                                    SharedPrefs.saveSharedSetting(LoginActivity.this,SharedPrefs.KEY_LOGIN_NAME,false);
+                                    SharedPrefs.saveSharedSetting(LoginActivity.this, SharedPrefs.KEY_LOGIN_NAME, false);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -110,6 +126,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
     @SuppressLint("WrongViewCast")
     private void initialize() {
         til_username = (TextInputLayout) findViewById(R.id.til_username);
@@ -117,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
         bt_login = (Button) findViewById(R.id.bt_login);
         tv_register = (Button) findViewById(R.id.tv_register);
     }
+
     private boolean validateUsername(String string) {
         //Validating the entered USERNAME
         if (string.equals("")) {
@@ -132,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
         til_username.setErrorEnabled(false);
         return true;
     }
+
     private boolean validatePassword(String string) {
         //Validating the entered PASSWORD
         if (string.equals("")) {

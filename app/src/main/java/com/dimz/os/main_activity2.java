@@ -45,9 +45,11 @@ public class main_activity2 extends AppCompatActivity
         setContentView(R.layout.main_activity2);
 
         // Ambil data yang dipassing dari MainActivity
-        Intent intent = getIntent();
-        nama = intent.getStringExtra("name");
-        url = intent.getStringExtra("url");
+//        Intent intent = getIntent();
+
+        // ambil data dari sharedPRef
+        nama = SharedPrefs.readSharedSetting(this,SharedPrefs.PREF_NAME,"");
+        url = SharedPrefs.readSharedSetting(this,SharedPrefs.PREF_URL,"");
 
         mToolbar = (Toolbar) findViewById(R.id.nav_action);
         setSupportActionBar(mToolbar);
