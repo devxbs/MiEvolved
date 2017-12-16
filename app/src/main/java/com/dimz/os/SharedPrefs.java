@@ -3,6 +3,7 @@ package com.dimz.os;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+//Dimz OS
 
 public class SharedPrefs {
 
