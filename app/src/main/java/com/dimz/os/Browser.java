@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    private View view; // sip udah ditambah
     private WebView webv;
     private EditText txturl;
     private Button btncari;
@@ -42,9 +41,9 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
         setContentView(R.layout.activity_browser);
 
         pg = (ProgressBar) findViewById(R.id.progressBar4);
-        webv = (WebView) findViewById(R.id.webv);          // findViewById itu fungsinya view, jadi view diatas baru findView. cara aksesnya kaya gini kalau di fragment
-        txturl = (EditText) findViewById(R.id.txturl);     // sama ky diatas
-        btncari = (Button) findViewById(R.id.btncari);     // sama ky diatas
+        webv = (WebView) findViewById(R.id.webv);
+        txturl = (EditText) findViewById(R.id.txturl);
+        btncari = (Button) findViewById(R.id.btncari);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         refreshLayout.setOnRefreshListener(this);
 
@@ -227,9 +226,9 @@ public class Browser extends AppCompatActivity implements SwipeRefreshLayout.OnR
         } else if (requestCode == FILECHOOSER_RESULTCODE) {
             if (null == mUploadMessage)
                 return;
-            // Use MainActivity.RESULT_OK if you're implementing WebView inside Fragment
+            // Use Browser.RESULT_OK if you're implementing WebView inside Fragment
             // Use RESULT_OK only if you're implementing WebView inside an Activity
-            Uri result = intent == null || resultCode != MainActivity.RESULT_OK ? null : intent.getData();
+            Uri result = intent == null || resultCode != Browser.RESULT_OK ? null : intent.getData();
             mUploadMessage.onReceiveValue(result);
             mUploadMessage = null;
         } else

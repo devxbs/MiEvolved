@@ -36,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
         bt_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                SharedPrefs.saveSharedSetting(LoginActivity.this, "DimzCode", "false");
+
                 username = til_username.getEditText().getText().toString();
                 password = til_password.getEditText().getText().toString();
                 if (validateUsername(username) && validatePassword(password)) { //Username and Password Validation
@@ -87,7 +90,9 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                     requestQueue.add(loginRequest);
+
                 }
+
             }
         });
         //Don't Have An Account TextView Clicked

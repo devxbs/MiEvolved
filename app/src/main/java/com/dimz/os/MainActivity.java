@@ -70,6 +70,22 @@ public class MainActivity extends AppCompatActivity {
         tv_mobile.setText(getIntent().getStringExtra("mobile"));
         tv_age.setText(getIntent().getStringExtra("age"));
         networkImageView.setImageUrl(getIntent().getStringExtra("url"), imageLoader);
+
+        CekSession();
+    }
+
+    public void CekSession(){
+
+        Boolean Check = Boolean.valueOf(SharedPrefs.readSharedSetting(MainActivity.this, "DimzCode", "true"));
+
+        Intent introIntent = new Intent(MainActivity.this, LoginActivity.class);
+        introIntent.putExtra("DimzCode", Check);
+
+        //The Value if you click on Login Activity and Set the value is FALSE and whe false the activity will be visible
+        if (Check) {
+            startActivity(introIntent);
+            finish();
+        } //If no the Main Activity not Do Anything
     }
 
     public void buttondimz1(View v) {
@@ -85,25 +101,25 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setMessage("Do You Want To Log Out ?");
-        builder.setCancelable(true);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                finish();
-            }
+//    @Override
+//    public void onBackPressed() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//        builder.setMessage("Do You Want To Log Out ?");
+//        builder.setCancelable(true);
+//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int id) {
+//                finish();
+//            }
 
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
+//        });
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int id) {
+//                dialog.cancel();
+//            }
+//        });
+//        AlertDialog alert = builder.create();
+//        alert.show();
+//    }
 }

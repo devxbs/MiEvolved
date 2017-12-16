@@ -143,7 +143,12 @@ public class main_activity2 extends AppCompatActivity
             fragmentTransaction.commit();
 
         }  else if (id == R.id.nav_logout) {
+            SharedPrefs.saveSharedSetting(main_activity2.this, "DimzCode", "true");
+            //And when you click on Logout button, You will set the value to True AGAIN
+            Intent LogOut = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(LogOut);
             finish();
+
         }
 
 
