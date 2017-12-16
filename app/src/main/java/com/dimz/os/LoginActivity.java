@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         bt_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ini codenya
+                //ini codenya//
                 SharedPrefs.saveSharedSetting(LoginActivity.this, "DimzCode", "false");
 
                 username = til_username.getEditText().getText().toString();
