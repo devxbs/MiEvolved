@@ -31,7 +31,6 @@ import com.dimz.os.drawer.Nav5;
 public class main_activity2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
@@ -143,6 +142,9 @@ public class main_activity2 extends AppCompatActivity
             fragmentTransaction.commit();
 
         }  else if (id == R.id.nav_logout) {
+            // kalau logout, ubah sharedPref nya jadi false biar SplashActivity ngarahin ke login.
+            SharedPrefs.saveSharedSetting(main_activity2.this,SharedPrefs.KEY_LOGIN_NAME,false);
+            startActivity(new Intent(this,LoginActivity.class));
             finish();
         }
 

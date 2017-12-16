@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //ini codenya//
-                SharedPrefs.saveSharedSetting(LoginActivity.this, "DimzCode", "false");
+//                SharedPrefs.saveSharedSetting(LoginActivity.this, "DimzCode", "false");
 
                 username = til_username.getEditText().getText().toString();
                 password = til_password.getEditText().getText().toString();
@@ -63,6 +63,10 @@ public class LoginActivity extends AppCompatActivity {
                                     loginSuccess.putExtra("email", jsonObject.getString("email"));
                                     loginSuccess.putExtra("age", jsonObject.getString("age"));
                                     loginSuccess.putExtra("url", jsonObject.getString("url"));
+
+                                    // ubah nilai sharedPref jadi true ketika login sukses
+                                    SharedPrefs.saveSharedSetting(LoginActivity.this,SharedPrefs.KEY_LOGIN_NAME,true);
+
                                     startActivity(loginSuccess);
                                     finish();
                                 } else {
@@ -71,6 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                                     else{
                                         Toast.makeText(LoginActivity.this, "Passwords Don't Match", Toast.LENGTH_SHORT).show();
                                     }
+                                    // ubah nilai sharedPref jadi false ketika login gagal buat pengecekan di SplashActivity
+                                    SharedPrefs.saveSharedSetting(LoginActivity.this,SharedPrefs.KEY_LOGIN_NAME,false);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

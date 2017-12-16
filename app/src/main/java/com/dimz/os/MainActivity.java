@@ -70,22 +70,36 @@ public class MainActivity extends AppCompatActivity {
         tv_mobile.setText(getIntent().getStringExtra("mobile"));
         tv_age.setText(getIntent().getStringExtra("age"));
         networkImageView.setImageUrl(getIntent().getStringExtra("url"), imageLoader);
-
         CekSession();
     }
 
-    public void CekSession(){
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-        Boolean Check = Boolean.valueOf(SharedPrefs.readSharedSetting(MainActivity.this, "DimzCode", "true"));
+        // cek sesinya juga ditambah disini. biar ngecek ketika setelah ada yang nutup activity
+        CekSession();
+    }
 
-        Intent introIntent = new Intent(MainActivity.this, LoginActivity.class);
-        introIntent.putExtra("DimzCode", Check);
-
-        //The Value if you click on Login Activity and Set the value is FALSE and whe false the activity will be visible
-        if (Check) {
+    public void CekSession() {
+        // cek jika shared preference aktif
+        if (!SharedPrefs.readSharedSetting(this, SharedPrefs.KEY_LOGIN_NAME)) {
+            Intent introIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(introIntent);
             finish();
-        } //If no the Main Activity not Do Anything
+        }
+
+//        Boolean Check = Boolean.valueOf(SharedPrefs.readSharedSetting(MainActivity.this, "DimzCode", "true"));
+//
+//        Intent introIntent = new Intent(MainActivity.this, LoginActivity.class);
+//        introIntent.putExtra("DimzCode", Check);
+//
+//        //The Value if you click on Login Activity and Set the value is FALSE and whe false the activity will be visible
+//        if (Check) {
+//            startActivity(introIntent);
+//            finish();
+//        } //If no the Main Activity not Do Anything
+//    }
     }
 
     public void buttondimz1(View v) {

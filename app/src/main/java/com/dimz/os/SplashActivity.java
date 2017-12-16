@@ -18,21 +18,26 @@ public class SplashActivity extends Activity {
     ImageView loading;
 
     @Override
-    public void onCreate(Bundle splashactivity){
+    public void onCreate(Bundle splashactivity) {
         super.onCreate(splashactivity);
         setContentView(R.layout.splash_activity);
 
-        new Timer().schedule(new TimerTask(){
+        new Timer().schedule(new TimerTask() {
 
             @Override
             public void run() {
-
-                Intent x = new Intent(SplashActivity.this, LoginActivity.class);
+                // disini melakukan pengecekan nilai di shared pref nya. kalau dia true, maka langsung ke MainActivity, kalau false langsung ke LoginActivity
+                Intent x;
+                boolean isLoggedIn = SharedPrefs.readSharedSetting(SplashActivity.this, SharedPrefs.KEY_LOGIN_NAME);
+                if (isLoggedIn) {
+                    x = new Intent(SplashActivity.this, MainActivity.class);
+                } else {
+                    x = new Intent(SplashActivity.this, LoginActivity.class);
+                }
                 startActivity(x);
                 finish();
-
             }
-        },3000);
+        }, 3000);
 
         loading = (ImageView) findViewById(R.id.loading);
         loading.setBackgroundResource(R.drawable.loading);
